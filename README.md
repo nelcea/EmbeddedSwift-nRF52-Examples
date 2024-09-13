@@ -10,5 +10,6 @@ Our first tries fails to build, as *throws* is equivalent to _throws any Error_,
 We fix that by using Typed throws, introduced in Swift 6.  
 We ignored the error so far, let's catch it and print an error message to the console.  
 Again, the build fails, but this time the error is more mysterious.  
+A commit from Apple on their examples fixed the issue (the -fno-pic flag is the important change).  
 
 Check out the [Controlling a LED using Embedded Swift on nRF52](https://www.ericbariaux.com/posts/led_embedded_swift_nrf52/) blog post to follow along as we build from this sample code.
