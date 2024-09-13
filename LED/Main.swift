@@ -25,9 +25,9 @@ struct Main {
 struct Led {
   let gpio: UnsafePointer<gpio_dt_spec>
 
-  init(gpio: UnsafePointer<gpio_dt_spec>) throws {
+  init(gpio: UnsafePointer<gpio_dt_spec>) throws(LedError) {
     if (!gpio_is_ready_dt(gpio)) {
-      throw LedError.notReady
+      throw .notReady
     }
 
     self.gpio = gpio
