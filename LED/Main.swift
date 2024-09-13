@@ -12,12 +12,14 @@
 @main
 struct Main {
   static func main() {
-    let led = try? Led(gpio: &led0)
-    while true {
-      if let led {
+    do {
+      let led = try Led(gpio: &led0)
+      while true {
         led.toggle()
+        k_msleep(100)
       }
-      k_msleep(100)
+    } catch {
+      print("Could not initialize LED")
     }
   }
 }

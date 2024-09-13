@@ -8,5 +8,7 @@ The GPIO pin was hardcoded, we now pass it as a parameter to the struct initiali
 If you look more closely at the nRF Connect SDK documentation, it indicates that we should first check if the GPIO is ready before configuring a pin. Let's add this check to our initializer, making it throwing.  
 Our first tries fails to build, as *throws* is equivalent to _throws any Error_, and Embedded Swift does not support existentials.  
 We fix that by using Typed throws, introduced in Swift 6.  
+We ignored the error so far, let's catch it and print an error message to the console.  
+Again, the build fails, but this time the error is more mysterious.  
 
 Check out the [Controlling a LED using Embedded Swift on nRF52](https://www.ericbariaux.com/posts/led_embedded_swift_nrf52/) blog post to follow along as we build from this sample code.
