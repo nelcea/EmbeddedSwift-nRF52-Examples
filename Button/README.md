@@ -10,3 +10,4 @@ We now remove the C implementation and start the Swift implementation, one step 
 Let's declare the reference to the GPIO pin and check the GPIO is ready.  
 If OK, configure the pin as input.  
 Then configure the interrupt to be on transition to active state.  
+Finally declare the handler as a closure, initialize the callback structure and add the callback on the button.  
