@@ -9,3 +9,4 @@ This ensures we have a working foundation, without having to tackle any of the i
 We now remove the C implementation and start the Swift implementation, one step at a time.  
 Let's declare the reference to the GPIO pin and check the GPIO is ready.  
 If OK, configure the pin as input.  
+Then configure the interrupt to be on transition to active state.  
