@@ -35,7 +35,7 @@ add_compile_options(
     "$<$<COMPILE_LANGUAGE:Swift>:SHELL:-Xcc -I -Xcc ${ZEPHYR_SDK_INSTALL_DIR}/arm-zephyr-eabi/picolibc/include>"
 )
 
-target_sources(app PRIVATE Stubs.c button.c)
+target_sources(app PRIVATE Stubs.c)
 
 # The Swift code providing "main" needs to be in an OBJECT library (instead of STATIC library) to make sure it actually gets linker.
 # A STATIC library would get dropped from linking because Zephyr provides a default weak empty main definition.
