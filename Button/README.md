@@ -11,3 +11,4 @@ Let's declare the reference to the GPIO pin and check the GPIO is ready.
 If OK, configure the pin as input.  
 Then configure the interrupt to be on transition to active state.  
 Finally declare the handler as a closure, initialize the callback structure and add the callback on the button.  
+Clean-up a bit by moving the code in a Button struct. This builds but does not work anymore.  

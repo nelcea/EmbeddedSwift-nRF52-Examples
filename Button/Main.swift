@@ -47,25 +47,34 @@ func bit(_ n: UInt8) -> UInt32 {
 @main
 struct Main {
   static func main() {
-    guard gpio_is_ready_dt(&button) else { return }
-
-    let ret = gpio_pin_configure_dt(&button, GPIO_INPUT)
-    guard ret == 0 else { return }
-
-    gpio_pin_interrupt_configure_dt(&button, GpioInterrupts.edgeToActive)
-
-    let btnHandler: GpioCallbackHandler? = { _, _, _ in
+    let myButton = Button(gpio: &button) { _, _, _ in
       print("Button pressed")
     }
-
-    var pin_cb_data = gpio_callback()
-
-    gpio_init_callback(&pin_cb_data, btnHandler, bit(button.pin))
-
-    gpio_add_callback(button.port, &pin_cb_data)
 
     while true {
       k_msleep(100)
     }
+  }
+}
+
+struct Button {
+  let gpio: UnsafePointer<gpio_dt_spec>
+  let btnHandler: GpioCallbackHandler
+  var pin_cb_data = gpio_callback()
+
+  init(gpio: UnsafePointer<gpio_dt_spec>, btnHandler: GpioCallbackHandler) {
+    self.gpio = gpio
+    self.btnHandler = btnHandler
+
+    guard gpio_is_ready_dt(gpio) else { return }
+
+    let ret = gpio_pin_configure_dt(gpio, GPIO_INPUT)
+    guard ret == 0 else { return }
+
+    gpio_pin_interrupt_configure_dt(gpio, GpioInterrupts.edgeToActive)
+
+    gpio_init_callback(&pin_cb_data, self.btnHandler, bit(gpio.pointee.pin))
+
+    gpio_add_callback(gpio.pointee.port, &pin_cb_data)
   }
 }
