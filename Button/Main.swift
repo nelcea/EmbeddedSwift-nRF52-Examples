@@ -57,7 +57,7 @@ struct Main {
   }
 }
 
-struct Button {
+class Button {
   let gpio: UnsafePointer<gpio_dt_spec>
   let btnHandler: GpioCallbackHandler
   var pin_cb_data = gpio_callback()
