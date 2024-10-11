@@ -44,10 +44,11 @@ func bit(_ n: UInt8) -> UInt32 {
   UInt32(1) << n
 }
 
+let led = Led(gpio: &led0)
+
 @main
 struct Main {
   static func main() {
-    let led = Led(gpio: &led0)
 
     let myButton = Button(gpio: &button) { _, _, _ in
       led.toggle()
