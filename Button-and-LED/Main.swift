@@ -44,12 +44,16 @@ func bit(_ n: UInt8) -> UInt32 {
   UInt32(1) << n
 }
 
+enum Leds {
+  static let firstLed = Led(gpio: &led0)
+}
+
 @main
 struct Main {
   static func main() {
 
     let myButton = Button(gpio: &button) { _, _, _ in
-      Led.firstLed.toggle()
+      Leds.firstLed.toggle()
     }
 
     while true {
@@ -81,8 +85,6 @@ class Button {
 }
 
 struct Led {
-  static let firstLed = Led(gpio: &led0)
-
   let gpio: UnsafePointer<gpio_dt_spec>
 
   init(gpio: UnsafePointer<gpio_dt_spec>) {
