@@ -44,8 +44,15 @@ func bit(_ n: UInt8) -> UInt32 {
   UInt32(1) << n
 }
 
-enum Leds {
-  static let firstLed = Led(gpio: &led0)
+class AppLogic {
+    static let shared = AppLogic()
+    private init() { }
+
+    let firstLed = Led(gpio: &led0)
+
+    func toggleLed() {
+      firstLed.toggle()
+    }
 }
 
 @main
@@ -53,7 +60,7 @@ struct Main {
   static func main() {
 
     let myButton = Button(gpio: &button) { _, _, _ in
-      Leds.firstLed.toggle()
+      AppLogic.shared.toggleLed()
     }
 
     while true {
