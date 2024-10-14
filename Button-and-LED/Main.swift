@@ -44,9 +44,9 @@ func bit(_ n: UInt8) -> UInt32 {
   UInt32(1) << n
 }
 
-struct ExtendedCallback {
+struct ExtendedCallback<T> {
   var callback: gpio_callback
-  var led: Led
+  var context: T
 
   static func containerFrom(callback ptr: UnsafePointer<gpio_callback>) -> ExtendedCallback {
     let containerPtr = UnsafeRawPointer(ptr) - MemoryLayout.offset(of: \Self.callback)!
@@ -57,8 +57,8 @@ struct ExtendedCallback {
 @main
 struct Main {
   static func main() {
-    let myButton = Button(gpio: &button) { _, callback, _ in
-      ExtendedCallback.containerFrom(callback: callback!).led.toggle()
+    let myButton = Button<Led>(gpio: &button, context: Led(gpio: &led0)) { _, callback, _ in
+      ExtendedCallback<Led>.containerFrom(callback: callback!).context.toggle()
     }
 
     while true {
@@ -67,14 +67,15 @@ struct Main {
   }
 }
 
-class Button {
+class Button<T> {
   let gpio: UnsafePointer<gpio_dt_spec>
   let btnHandler: GpioCallbackHandler
-  var pin_cb_data = ExtendedCallback(callback: gpio_callback(), led: Led(gpio: &led0))
+  var pin_cb_data: ExtendedCallback<T>
 
-  init(gpio: UnsafePointer<gpio_dt_spec>, btnHandler: GpioCallbackHandler) {
+  init(gpio: UnsafePointer<gpio_dt_spec>, context: T, btnHandler: GpioCallbackHandler) {
     self.gpio = gpio
     self.btnHandler = btnHandler
+    self.pin_cb_data = ExtendedCallback(callback: gpio_callback(), context: context)
 
     guard gpio_is_ready_dt(gpio) else { return }
 
