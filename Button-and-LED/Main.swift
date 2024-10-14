@@ -44,23 +44,21 @@ func bit(_ n: UInt8) -> UInt32 {
   UInt32(1) << n
 }
 
-class AppLogic {
-    static let shared = AppLogic()
-    private init() { }
+struct ExtendedCallback {
+  var callback: gpio_callback
+  var led: Led
 
-    let firstLed = Led(gpio: &led0)
-
-    func toggleLed() {
-      firstLed.toggle()
-    }
+  static func containerFrom(callback ptr: UnsafePointer<gpio_callback>) -> ExtendedCallback {
+    let containerPtr = UnsafeRawPointer(ptr) - MemoryLayout.offset(of: \Self.callback)!
+    return containerPtr.assumingMemoryBound(to: Self.self).pointee
+  }
 }
 
 @main
 struct Main {
   static func main() {
-
-    let myButton = Button(gpio: &button) { _, _, _ in
-      AppLogic.shared.toggleLed()
+    let myButton = Button(gpio: &button) { _, callback, _ in
+      ExtendedCallback.containerFrom(callback: callback!).led.toggle()
     }
 
     while true {
@@ -72,7 +70,7 @@ struct Main {
 class Button {
   let gpio: UnsafePointer<gpio_dt_spec>
   let btnHandler: GpioCallbackHandler
-  var pin_cb_data = gpio_callback()
+  var pin_cb_data = ExtendedCallback(callback: gpio_callback(), led: Led(gpio: &led0))
 
   init(gpio: UnsafePointer<gpio_dt_spec>, btnHandler: GpioCallbackHandler) {
     self.gpio = gpio
@@ -85,9 +83,9 @@ class Button {
 
     gpio_pin_interrupt_configure_dt(gpio, GpioInterrupts.edgeToActive)
 
-    gpio_init_callback(&pin_cb_data, self.btnHandler, bit(gpio.pointee.pin))
+    gpio_init_callback(&pin_cb_data.callback, self.btnHandler, bit(gpio.pointee.pin))
 
-    gpio_add_callback(gpio.pointee.port, &pin_cb_data)
+    gpio_add_callback(gpio.pointee.port, &pin_cb_data.callback)
   }
 }
 

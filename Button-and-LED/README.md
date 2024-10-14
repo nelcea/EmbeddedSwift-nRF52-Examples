@@ -11,5 +11,6 @@ Making the led constant global is one way to solve the issue.
 Another way is to make it a static property on the Led struct.  
 Yet another way is to have the static on a new dedicated type.  
 This time, we're using a singleton to encapsulate the access to the LED.  
+We adopt yet another strategy, passing the Led as part of one of the callback parameters.  
 
 Check out the [Creating a Swift type for button input on nRF52 - Part 2](https://www.ericbariaux.com/posts/button_embedded_swift_nrf52_part2/) blog post to follow along as we build this sample code.
