@@ -1,0 +1,26 @@
+/ {
+	model = "Nordic nRF52840 DK NRF52840";
+	compatible = "nordic,nrf52840-dk-nrf52840";
+
+    leds {
+		compatible = "gpio-leds";
+		greenled: green_led {
+			gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;
+			label = "LED P1.10";
+		};
+		yellowled: yellow_led {
+			gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+			label = "LED P1.11";
+		};
+		redled: red_led {
+			gpios = <&gpio1 12 GPIO_ACTIVE_HIGH>;
+			label = "LED P1.12";
+		};
+	};
+    
+    aliases {
+        greenled = &greenled;
+        yellowled = &yellowled;
+        redled = &redled;
+    };
+};

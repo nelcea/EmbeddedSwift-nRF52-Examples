@@ -24,3 +24,6 @@ Check out the [Creating a Swift type for button input on nRF52 - Part 1](https:/
 In this project, we show how to generate random numbers using Embedded Swift and nRF Connect SDK.  
 Check out the [Randomness on nRF52 using Embedded Swift](https://www.ericbariaux.com/posts/random_nrf52/) blog post for more information.
 
+## Traffic Light
+
+This example implements a simple traffic light, with some basic timing logic to move between the different states.  
