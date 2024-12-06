@@ -1,10 +1,10 @@
 @main
 struct Main {
   static func main() {
-    let _ = Timer.scheduledTimer(delay: 10000) { timer in
+    let timer1 = Timer.scheduledTimer(delay: 10000) { timer in
       print("10 seconds have elapsed")    
     }
-    let _ = Timer.scheduledTimer(delay: 5000, period: 2000) { timer in
+    let timer2 = Timer.scheduledTimer(delay: 5000, period: 2000) { timer in
       print("Ticking every 2 seconds")
     }
     while true {
