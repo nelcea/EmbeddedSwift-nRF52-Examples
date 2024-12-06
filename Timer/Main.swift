@@ -17,7 +17,7 @@ typealias TimerExpiry = @convention(c) (
   _ timer: UnsafeMutablePointer<k_timer>?
 ) -> Void
 
-struct Timer {
+struct Timer: ~Copyable {
   var timer = UnsafeMutablePointer<k_timer>.allocate(capacity: 1)
   var delay: UInt32
   var period: UInt32?
@@ -32,6 +32,11 @@ struct Timer {
     self.delay = delay
     self.period = period
     k_timer_init(timer, handler, nil)
+  }
+
+  deinit {
+    k_timer_stop(timer)
+    timer.deallocate()
   }
 
   func start() {
