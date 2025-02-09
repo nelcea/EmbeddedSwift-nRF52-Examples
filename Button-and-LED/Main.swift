@@ -96,7 +96,7 @@ struct Led {
   init(gpio: UnsafePointer<gpio_dt_spec>) {
     self.gpio = gpio
 
-    gpio_pin_configure_dt(gpio, GPIO_OUTPUT | GPIO_OUTPUT_INIT_HIGH | GPIO_OUTPUT_INIT_LOGICAL)
+    gpio_pin_configure_dt(gpio, GPIO_OUTPUT | GPIO_OUTPUT_INIT_LOW | GPIO_OUTPUT_INIT_LOGICAL)
   }
 
   func on() {
