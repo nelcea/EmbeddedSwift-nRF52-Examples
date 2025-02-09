@@ -23,7 +23,7 @@ struct ExtendedCallback<T> {
   }
 }
 
-struct Button<T> {
+struct Button<T>: ~Copyable {
   var gpio: UnsafePointer<gpio_dt_spec>
   var handle: GpioCallbackHandler?
   var pin_cb_data: UnsafeMutablePointer<ExtendedCallback<T>>
@@ -57,5 +57,10 @@ struct Button<T> {
     if ret < 0 {
       fatalError("Button init error, configure calback failed")
     }
+  }
+
+  deinit {
+    gpio_remove_callback(gpio.pointee.port, &pin_cb_data.pointee.callback)
+    pin_cb_data.deallocate()
   }
 }
