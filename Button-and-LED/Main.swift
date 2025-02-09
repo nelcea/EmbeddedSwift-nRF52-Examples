@@ -88,6 +88,10 @@ class Button<T> {
 
     gpio_add_callback(gpio.pointee.port, &pin_cb_data.callback)
   }
+
+  deinit {
+    gpio_remove_callback(gpio.pointee.port, &pin_cb_data.callback)
+  }
 }
 
 struct Led {
