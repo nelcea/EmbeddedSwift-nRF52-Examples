@@ -4,7 +4,7 @@ struct Main {
   
     let trafficLight = TrafficLight()
 
-    let _ = Button<TrafficLight>(gpio: &button, context: trafficLight) { _, callback, _ in
+    let btn1 = Button<TrafficLight>(gpio: &button, context: trafficLight) { _, callback, _ in
       ExtendedCallback<TrafficLight>.containerFrom(callback: callback!).context.push()
     }
 
