@@ -15,3 +15,5 @@ We adopt yet another strategy, passing the Led as part of one of the callback pa
 And update that strategy to use generics and be usable in many situations.   
 
 Check out the [Creating a Swift type for button input on nRF52 - Part 2](https://www.ericbariaux.com/posts/button_embedded_swift_nrf52_part2/) blog post to follow along as we build this sample code.
+
+Update Feb-2025: Also check out [Addressing Previous Oversights](https://www.ericbariaux.com/posts/previous_oversights_nrf52/) as it explains some issues with the initial sample code.
